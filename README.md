@@ -1,6 +1,5 @@
 # CHOTU — a URL shortener that self-destructs in 10 minutes
 
-
 This is a working starter project. Follow the steps below in order.
 
 ## What's already done for you
