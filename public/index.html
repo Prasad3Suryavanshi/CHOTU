@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CHOTU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="choiceView" class="view-screen">
+    <div class="editorial-header">
+      <div class="meta-text">EST. 2026</div>
+      <h1 class="logo-title">CHOTU</h1>
+      <div class="meta-text">LINK SERVICE</div>
+    </div>
+    
+    <div class="choice-split">
+      <button id="toShortenBtn" class="choice-col">
+        <h2 class="col-title">SHORTEN</h2>
+        <p class="col-desc">Generate a secure, single-use access code.</p>
+      </button>
+      
+      <button id="toRedirectBtn" class="choice-col">
+        <h2 class="col-title">REDIRECT</h2>
+        <p class="col-desc">Enter a code. Jump instantly to the destination.</p>
+      </button>
+    </div>
+  </div>
+
+  <div id="shortenView" class="view-screen view-hidden">
+    <div class="nav-top">
+      <button class="back-btn" id="shortenBackBtn">← BACK</button>
+      <div class="meta-text" id="shortenStatus">READY</div>
+    </div>
+
+    <div class="content-center" id="shortenForm">
+      <h1 class="action-title">PASTE LINK</h1>
+      <form id="urlForm" autocomplete="off" class="minimal-form">
+        <input id="urlInput" type="text" name="url" placeholder="https://..." required />
+        <button type="submit" id="shortenBtn">GENERATE ↵</button>
+      </form>
+      <p class="field-error" id="shortenError" hidden></p>
+    </div>
+
+    <div class="content-center" id="shortenResult" hidden>
+      <div class="counter-wrap">
+        <div id="fallingCounter" class="falling-number-container"></div>
+        <div class="meta-text">SECONDS REMAINING</div>
+      </div>
+      
+      <div class="huge-code-wrap">
+        <div id="codeText" class="huge-code" data-original="">AB3XQ9</div>
+        <p class="click-hint">click the code to copy</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="redirectView" class="view-screen view-hidden">
+    <div class="nav-top">
+      <button class="back-btn" id="redirectBackBtn">← BACK</button>
+      <div class="meta-text">AWAITING INPUT</div>
+    </div>
+
+    <div class="content-center" id="redirectForm">
+      <h1 class="action-title">ENTER CODE</h1>
+      <form id="codeForm" autocomplete="off" class="minimal-form">
+        <input id="codeInput" type="text" name="code" placeholder="XXXXXX" maxlength="6" required />
+        <button type="submit" id="goBtn">GO ↵</button>
+      </form>
+      <p class="field-error" id="redirectError" hidden></p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-badge">made by <a href="https://github.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer">ace</a></span>
+  </div>
+
+  <div id="transitionOverlay" class="transition-overlay">
+    <div class="t-bar"></div>
+    <div class="t-bar"></div>
+    <div class="t-bar"></div>
+    <div class="t-bar"></div>
+    <div class="t-bar"></div>
+  </div>
+
+  <div id="customCursor" class="custom-cursor"></div>
+  <div id="bgRipple" class="bg-ripple"></div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
