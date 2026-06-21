@@ -86,7 +86,7 @@ const shortenStatus = document.getElementById("shortenStatus");
 const codeText = document.getElementById("codeText");
 
 let countdownInterval = null;
-let oldCounterStr = ""; // Stores previous time to compare digits
+let oldCounterStr = ""; 
 
 urlForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -110,11 +110,11 @@ urlForm.addEventListener("submit", async (e) => {
     document.getElementById("shortenForm").hidden = true;
     document.getElementById("shortenResult").hidden = false;
     
-    codeText.dataset.original = data.code; // Store original code for scrabble
+    codeText.dataset.original = data.code; 
     codeText.innerText = data.code;
     shortenStatus.textContent = "ACTIVE";
 
-    oldCounterStr = ""; // Reset string memory
+    oldCounterStr = ""; 
     startFallingCounter(data.expiresInSeconds);
   } catch (err) {
     document.getElementById("shortenError").textContent = err.message;
@@ -131,13 +131,12 @@ function setGranularCounter(newVal) {
   const lengthChanged = oldCounterStr.length !== newStr.length;
   
   for(let i = 0; i < newStr.length; i++) {
-     // If the string length changed, or the char at this position changed, drop it!
      let isDifferent = lengthChanged || oldCounterStr[i] !== newStr[i];
      let dropClass = isDifferent ? 'dropping' : '';
      html += `<span class="digit ${dropClass}">${newStr[i]}</span>`;
   }
   
-  fallingCounter.innerHTML = html; // Re-injecting automatically restarts the CSS animation
+  fallingCounter.innerHTML = html;
   oldCounterStr = newStr;
 }
 
@@ -177,7 +176,7 @@ function runScramble(element, targetText, onComplete) {
       clearInterval(element.scrambleInterval);
       if(onComplete) onComplete();
     }
-    iteration += 1 / 2; // Controls scramble speed
+    iteration += 1 / 2;
   }, 30);
 }
 
@@ -191,9 +190,7 @@ codeText.addEventListener("click", async () => {
     await navigator.clipboard.writeText(originalCode);
   } catch {}
 
-  // Scramble forward to "COPIED"
   runScramble(codeText, "COPIED", () => {
-    // Hold it, then scramble back
     setTimeout(() => {
       runScramble(codeText, originalCode, () => {
         codeText.classList.remove("is-copying");
@@ -257,3 +254,69 @@ function triggerRipple(type) {
     }, 800);
   }
 }
+
+// ==========================================
+// ANIME.JS POLKA DOT BACKGROUND LOGIC
+// ==========================================
+const polkaContainer = document.getElementById('polkaContainer');
+let gridCols = 0;
+let gridRows = 0;
+const dotSpacing = 40; 
+
+function buildPolkaGrid() {
+  polkaContainer.innerHTML = '';
+  
+  gridCols = Math.floor(window.innerWidth / dotSpacing);
+  gridRows = Math.floor(window.innerHeight / dotSpacing);
+  
+  polkaContainer.style.width = `${gridCols * dotSpacing}px`;
+  polkaContainer.style.height = `${gridRows * dotSpacing}px`;
+  
+  polkaContainer.style.left = `calc(50vw - ${gridCols * dotSpacing / 2}px)`;
+  polkaContainer.style.top = `calc(50dvh - ${gridRows * dotSpacing / 2}px)`;
+
+  const totalDots = gridCols * gridRows;
+  
+  for (let i = 0; i < totalDots; i++) {
+    const dotWrapper = document.createElement('div');
+    dotWrapper.style.width = `${dotSpacing}px`;
+    dotWrapper.style.height = `${dotSpacing}px`;
+    dotWrapper.style.display = 'flex';
+    dotWrapper.style.justifyContent = 'center';
+    dotWrapper.style.alignItems = 'center';
+
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    dotWrapper.appendChild(dot);
+    polkaContainer.appendChild(dotWrapper);
+  }
+}
+
+function triggerAnimeRipple() {
+  if (gridCols === 0 || gridRows === 0) return;
+  
+  const totalDots = gridCols * gridRows;
+  const randomOrigin = Math.floor(Math.random() * totalDots); 
+
+  anime({
+    targets: '.dot',
+    scale: [
+      { value: 3.5, easing: 'easeOutSine', duration: 400 },
+      { value: 1, easing: 'easeInOutQuad', duration: 900 }
+    ],
+    opacity: [
+      { value: 0.9, easing: 'easeOutSine', duration: 400 },
+      { value: 0.2, easing: 'easeInOutQuad', duration: 900 }
+    ],
+    delay: anime.stagger(60, { grid: [gridCols, gridRows], from: randomOrigin }) 
+  });
+}
+
+window.addEventListener('resize', () => {
+  clearTimeout(window.resizeTimer);
+  window.resizeTimer = setTimeout(buildPolkaGrid, 200);
+});
+
+buildPolkaGrid();
+setInterval(triggerAnimeRipple, 4000); 
+setTimeout(triggerAnimeRipple, 300);
