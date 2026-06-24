@@ -3,96 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CHOTU</title>
+  <title>CHOTU | Quick Link Sharing</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <div id="polkaContainer" class="polka-container"></div>
-
-  <div id="choiceView" class="view-screen">
-    <div class="editorial-header">
-      <div class="meta-text">EST. 2026</div>
-      <h1 class="logo-title">CHOTU</h1>
-      <div class="meta-text">LINK SERVICE</div>
+  <header class="top-header">
+    <div class="logo-wrap">
+      <h1 class="logo">CHOTU</h1>
+      <p class="tagline">INSTANT LINK SHARING</p>
     </div>
+    <div class="spectrum-bar"></div>
+  </header>
+
+  <main class="container">
     
-    <div class="choice-split">
-      <button id="toShortenBtn" class="choice-col">
-        <h2 class="col-title">SHORTEN</h2>
-        <p class="col-desc">Generate a secure, single-use access code.</p>
-      </button>
-      
-      <button id="toRedirectBtn" class="choice-col">
-        <h2 class="col-title">REDIRECT</h2>
-        <p class="col-desc">Enter a code. Jump instantly to the destination.</p>
-      </button>
-    </div>
-  </div>
+    <!-- CARD 1: CREATE A CODE -->
+    <section class="polaroid-card">
+      <div class="photo-area">
+        
+        <div id="shortenFormWrap" class="card-content">
+          <h2 class="card-title">SHARE A LINK</h2>
+          <p class="card-desc">Paste a long URL to generate a 6-digit code.</p>
+          
+          <form id="urlForm" autocomplete="off" class="action-form">
+            <input id="urlInput" type="url" placeholder="https://..." required />
+            <p class="error-msg" id="shortenError" hidden></p>
+            <button type="submit" id="shortenBtn" class="primary-btn">CREATE CODE</button>
+          </form>
+        </div>
 
-  <div id="shortenView" class="view-screen view-hidden">
-    <div class="nav-top">
-      <button class="back-btn" id="shortenBackBtn">← BACK</button>
-      <div class="meta-text" id="shortenStatus">READY</div>
-    </div>
+        <div id="shortenResultWrap" class="card-content" hidden>
+          <h2 class="card-title">YOUR CODE</h2>
+          
+          <!-- Visual Timer Bar -->
+          <div class="timer-track">
+            <div class="timer-fill" id="timerFill"></div>
+          </div>
+          
+          <!-- Click directly on this element to copy -->
+          <div class="code-display" id="codeText" title="Click to copy" data-original="">------</div>
+          <p class="click-hint" id="copyHint">CLICK THE CODE TO COPY</p>
+          
+          <div class="button-group">
+            <button id="resetBtn" class="secondary-btn">NEW LINK</button>
+          </div>
+        </div>
 
-    <div class="content-center" id="shortenForm">
-      <h1 class="action-title">PASTE LINK</h1>
-      <form id="urlForm" autocomplete="off" class="minimal-form">
-        <input id="urlInput" type="text" name="url" placeholder="https://..." required />
-        <button type="submit" id="shortenBtn">GENERATE ↵</button>
-      </form>
-      <p class="field-error" id="shortenError" hidden></p>
-    </div>
-
-    <div class="content-center" id="shortenResult" hidden>
-      <div class="counter-wrap">
-        <div id="fallingCounter" class="falling-number-container"></div>
-        <div class="meta-text">SECONDS REMAINING</div>
       </div>
-      
-      <div class="huge-code-wrap">
-        <div id="codeText" class="huge-code" data-original="">AB3XQ9</div>
-        <p class="click-hint">click the code to copy</p>
+    </section>
+
+    <!-- CARD 2: USE A CODE -->
+    <section class="polaroid-card">
+      <div class="photo-area">
+        <div class="card-content">
+          <h2 class="card-title">USE A CODE</h2>
+          <p class="card-desc">Enter a 6-digit code to open the link.</p>
+          
+          <form id="codeForm" autocomplete="off" class="action-form">
+            <input id="codeInput" type="text" placeholder="XXXXXX" maxlength="6" required />
+            <p class="error-msg" id="redirectError" hidden></p>
+            <button type="submit" id="goBtn" class="primary-btn">OPEN LINK</button>
+          </form>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <div id="redirectView" class="view-screen view-hidden">
-    <div class="nav-top">
-      <button class="back-btn" id="redirectBackBtn">← BACK</button>
-      <div class="meta-text">AWAITING INPUT</div>
-    </div>
+  </main>
 
-    <div class="content-center" id="redirectForm">
-      <h1 class="action-title">ENTER CODE</h1>
-      <form id="codeForm" autocomplete="off" class="minimal-form">
-        <input id="codeInput" type="text" name="code" placeholder="XXXXXX" maxlength="6" required />
-        <button type="submit" id="goBtn">GO ↵</button>
-      </form>
-      <p class="field-error" id="redirectError" hidden></p>
-    </div>
-  </div>
+  <footer class="site-footer">
+    MADE BY <a href="https://github.com/Prasad3Suryavanshi" target="_blank" rel="noopener noreferrer">PRASAD SURYAVANSHI</a>
+  </footer>
 
-  <div class="footer">
-    <span class="footer-badge">made by <a href="https://github.com/Prasad3Suryavanshi" target="_blank" rel="noopener noreferrer">Prasad Suryavanshi</a></span>
-  </div>
-
-  <div id="transitionOverlay" class="transition-overlay">
-    <div class="t-bar"></div>
-    <div class="t-bar"></div>
-    <div class="t-bar"></div>
-    <div class="t-bar"></div>
-    <div class="t-bar"></div>
-  </div>
-
-  <div id="customCursor" class="custom-cursor"></div>
-  <div id="bgRipple" class="bg-ripple"></div>
-  
   <script src="script.js"></script>
 </body>
 </html>
